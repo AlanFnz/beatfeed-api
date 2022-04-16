@@ -1,4 +1,3 @@
-import mongodb from 'mongodb';
 import express from 'express';
 import * as http from 'http';
 import * as winston from 'winston';
