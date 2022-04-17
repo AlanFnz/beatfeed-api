@@ -7,6 +7,7 @@ import cors from "cors";
 
 import { CommonRoutesConfig } from "./common/common.routes.config";
 import { UsersRoutes } from "./users/users.routes.config";
+import { AuthRoutes } from "./auth/auth.routes.config";
 
 import debug from "debug";
 
@@ -47,6 +48,7 @@ app.use(expressWinston.logger(loggerOptions));
 
 // add routes
 routes.push(new UsersRoutes(app));
+routes.push(new AuthRoutes(app));
 
 // make sure everything is working properly
 const runningMessage = `Server running at http://localhost:${port}`;
