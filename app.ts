@@ -1,4 +1,5 @@
 import express from "express";
+import dotenv from 'dotenv';
 import * as http from "http";
 import * as winston from "winston";
 import * as expressWinston from "express-winston";
@@ -10,6 +11,7 @@ import { UsersRoutes } from "./users/users.routes.config";
 import debug from "debug";
 
 const app: express.Application = express();
+const dotenvResult = dotenv.config();
 const server: http.Server = http.createServer(app);
 const port = 3000;
 const routes: Array<CommonRoutesConfig> = [];
@@ -31,6 +33,10 @@ const loggerOptions: expressWinston.LoggerOptions = {
     winston.format.colorize({ all: true })
   ),
 };
+
+if (dotenvResult.error) {
+  throw dotenvResult.error;
+}
 
 if (!process.env.DEBUG) {
   loggerOptions.meta = false; // when not debugging, log requests as one-liners
