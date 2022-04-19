@@ -45,6 +45,12 @@ class UsersDao {
     return this.User.findOne({ email: email }).exec();
   }
 
+  async getUserByEmailWithPassword(email: string) {
+    return this.User.findOne({ email: email })
+      .select("_id email permissionFlags +password")
+      .exec();
+  }
+
   async getUserById(userId: string) {
     return this.User.findOne({ _id: userId }).exec();
   }
@@ -68,7 +74,7 @@ class UsersDao {
 
   async removeUserById(userId: string) {
     return this.User.deleteOne({ _id: userId }).exec();
-}
+  }
 }
 
 export default new UsersDao();
