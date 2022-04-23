@@ -1,5 +1,5 @@
 import express from "express";
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
 import * as http from "http";
 import * as winston from "winston";
 import * as expressWinston from "express-winston";
@@ -41,6 +41,9 @@ if (dotenvResult.error) {
 
 if (!process.env.DEBUG) {
   loggerOptions.meta = false; // when not debugging, log requests as one-liners
+  if (typeof global.it === "function") {
+    loggerOptions.level = "http"; // for non-debug test runs, squelch entirely
+  }
 }
 
 // initialize logger
@@ -56,7 +59,7 @@ app.get("/", (req: express.Request, res: express.Response) => {
   res.status(200).send(runningMessage);
 });
 
-server.listen(port, () => {
+export default server.listen(port, () => {
   routes.forEach((route: CommonRoutesConfig) => {
     debugLog(`Routes configured for ${route.getName()}`);
   });
