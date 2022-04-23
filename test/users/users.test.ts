@@ -23,7 +23,7 @@ describe("users and auth endpoints", function () {
   });
 
   after(function (done) {
-    // shut down express server, close mongo connection and tell mocha we're done
+    // shut down express server, close mongo connection and  tell mocha we're done
     app.close(() => {
       mongoose.connection.close(done);
     });
