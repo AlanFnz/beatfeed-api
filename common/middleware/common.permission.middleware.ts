@@ -62,3 +62,5 @@ class CommonPermissionMiddleware {
     }
   }
 }
+
+export default new CommonPermissionMiddleware();
