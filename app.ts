@@ -2,14 +2,14 @@ import express from "express";
 import dotenv from "dotenv";
 import * as http from "http";
 import * as winston from "winston";
+import debug from "debug";
+import helmet from "helmet";
 import * as expressWinston from "express-winston";
 import cors from "cors";
 
 import { CommonRoutesConfig } from "./common/common.routes.config";
 import { UsersRoutes } from "./users/users.routes.config";
 import { AuthRoutes } from "./auth/auth.routes.config";
-
-import debug from "debug";
 
 const app: express.Application = express();
 const dotenvResult = dotenv.config();
@@ -23,6 +23,9 @@ app.use(express.json());
 
 // allow cross-origin requests
 app.use(cors());
+
+// helmet
+app.use(helmet());
 
 // expressWinston config
 // will automatically log all HTTP requests handled by Express.js
