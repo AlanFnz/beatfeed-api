@@ -41,6 +41,9 @@ if (dotenvResult.error) {
 
 if (!process.env.DEBUG) {
   loggerOptions.meta = false; // when not debugging, log requests as one-liners
+  if (typeof global.it === "function") {
+    loggerOptions.level = "http"; // for non-debug test runs, squelch entirely
+  }
 }
 
 // initialize logger
