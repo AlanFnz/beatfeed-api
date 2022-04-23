@@ -4,6 +4,7 @@ import * as http from "http";
 import * as winston from "winston";
 import debug from "debug";
 import helmet from "helmet";
+import rateLimit from "express-rate-limit";
 import * as expressWinston from "express-winston";
 import cors from "cors";
 
@@ -17,6 +18,12 @@ const server: http.Server = http.createServer(app);
 const port = 3000;
 const routes: Array<CommonRoutesConfig> = [];
 const debugLog: debug.IDebugger = debug("app");
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100,
+  standardHeaders: true,
+  legacyHeaders: false,
+});
 
 // parse all incoming requests as JSON
 app.use(express.json());
@@ -26,6 +33,9 @@ app.use(cors());
 
 // helmet
 app.use(helmet());
+
+// apply limiter
+app.use(limiter);
 
 // expressWinston config
 // will automatically log all HTTP requests handled by Express.js
