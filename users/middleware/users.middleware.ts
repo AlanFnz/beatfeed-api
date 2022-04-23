@@ -51,6 +51,7 @@ class UsersMiddleware {
   ) {
     const user = await userService.readById(req.params.userId);
     if (user) {
+      res.locals.user = user;
       next();
     } else {
       res.status(404).send({
