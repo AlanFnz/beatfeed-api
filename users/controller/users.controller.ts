@@ -3,6 +3,8 @@ import usersService from "../services/users.service";
 import argon2 from "argon2";
 import debug from "debug";
 
+import { PatchUserDto } from "../dto/patch.user.dto";
+
 const log: debug.IDebugger = debug("app:users-controller");
 
 class UsersController {
@@ -38,6 +40,14 @@ class UsersController {
 
   async removeUser(req: express.Request, res: express.Response) {
     log(await usersService.deleteById(req.body.id));
+    res.status(204).send();
+  }
+
+  async updatePermissionFlags(req: express.Request, res: express.Response) {
+    const patchUserDto: PatchUserDto = {
+      permissionFlags: parseInt(req.params.permissionFlags),
+    };
+    log(await usersService.patchById(req.body.id, patchUserDto));
     res.status(204).send();
   }
 }
