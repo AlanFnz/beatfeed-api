@@ -1,5 +1,5 @@
 import express from "express";
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
 import * as http from "http";
 import * as winston from "winston";
 import * as expressWinston from "express-winston";
