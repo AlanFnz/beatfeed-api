@@ -2,6 +2,9 @@ import express from "express";
 import dotenv from "dotenv";
 import * as http from "http";
 import * as winston from "winston";
+import debug from "debug";
+import helmet from "helmet";
+import rateLimit from "express-rate-limit";
 import * as expressWinston from "express-winston";
 import cors from "cors";
 
@@ -9,20 +12,30 @@ import { CommonRoutesConfig } from "./common/common.routes.config";
 import { UsersRoutes } from "./users/users.routes.config";
 import { AuthRoutes } from "./auth/auth.routes.config";
 
-import debug from "debug";
-
 const app: express.Application = express();
 const dotenvResult = dotenv.config();
 const server: http.Server = http.createServer(app);
 const port = 3000;
 const routes: Array<CommonRoutesConfig> = [];
 const debugLog: debug.IDebugger = debug("app");
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100,
+  standardHeaders: true,
+  legacyHeaders: false,
+});
 
 // parse all incoming requests as JSON
 app.use(express.json());
 
 // allow cross-origin requests
 app.use(cors());
+
+// helmet
+app.use(helmet());
+
+// apply limiter
+app.use(limiter);
 
 // expressWinston config
 // will automatically log all HTTP requests handled by Express.js
