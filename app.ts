@@ -56,6 +56,8 @@ app.get("/", (req: express.Request, res: express.Response) => {
   res.status(200).send(runningMessage);
 });
 
+export default app;
+
 server.listen(port, () => {
   routes.forEach((route: CommonRoutesConfig) => {
     debugLog(`Routes configured for ${route.getName()}`);
