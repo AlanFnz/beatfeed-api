@@ -1,8 +1,12 @@
 import express from "express";
-import userService from "../services/users.service";
 import debug from "debug";
 
-const log: debug.IDebugger = debug("app:users-controller");
+import userService from "../services/users.service";
+
+import { getObjectId } from "../../common/utils/util";
+
+const log: debug.IDebugger = debug("app:users-middleware");
+
 class UsersMiddleware {
   async validateSameEmailDoesntExist(
     req: express.Request,
@@ -22,7 +26,7 @@ class UsersMiddleware {
     res: express.Response,
     next: express.NextFunction
   ) {
-    if (res.locals.user._id === req.params.userId) {
+    if (res.locals.user._id.toString() === req.params.userId.toString()) {
       next();
     } else {
       res.status(400).send({ error: `Invalid email` });
@@ -48,7 +52,7 @@ class UsersMiddleware {
     res: express.Response,
     next: express.NextFunction
   ) {
-    const user = await userService.readById(req.params.userId);
+    const user = await userService.readById(getObjectId(req.params.userId));
     if (user) {
       res.locals.user = user;
       next();
@@ -64,7 +68,7 @@ class UsersMiddleware {
     res: express.Response,
     next: express.NextFunction
   ) {
-    req.body.id = req.params.userId;
+    req.body.id = getObjectId(req.params.userId.toString());
     next();
   }
 

@@ -1,3 +1,5 @@
+import { Types } from 'mongoose';
+
 import UsersDao from "../dao/users.dao";
 import { CRUD } from "../../common/interfaces/crud.interface";
 import { CreateUserDto } from "../dto/create.user.dto";
@@ -9,7 +11,7 @@ class UsersService implements CRUD {
     return UsersDao.addUser(resource);
   }
 
-  async deleteById(id: string) {
+  async deleteById(id: Types.ObjectId) {
     return UsersDao.removeUserById(id);
   }
 
@@ -17,15 +19,15 @@ class UsersService implements CRUD {
     return UsersDao.getUsers(limit, page);
   }
 
-  async patchById(id: string, resource: PatchUserDto) {
+  async patchById(id: Types.ObjectId, resource: PatchUserDto) {
     return UsersDao.updateUserById(id, resource);
   }
 
-  async readById(id: string) {
+  async readById(id: Types.ObjectId) {
     return UsersDao.getUserById(id);
   }
 
-  async putById(id: string, resource: PutUserDto) {
+  async putById(id: Types.ObjectId, resource: PutUserDto) {
     return UsersDao.updateUserById(id, resource);
   }
 

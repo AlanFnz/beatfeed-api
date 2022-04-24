@@ -83,7 +83,7 @@ export class UsersRoutes extends CommonRoutesConfig {
       permissionMiddleware.onlySameUserOrAdminCanDoThisAction,
 
       permissionMiddleware.permissionFlagRequired(
-        PermissionFlag.BASIC_USER_PERMISSION
+        PermissionFlag.ADMIN_PERMISSION
       ),
       UsersController.updatePermissionFlags,
     ]);
