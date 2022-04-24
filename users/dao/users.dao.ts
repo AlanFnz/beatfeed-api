@@ -40,7 +40,8 @@ class UsersDao {
       permissionFlags: PermissionFlag.BASIC_USER_PERMISSION,
     });
     await user.save();
-    return userId;
+
+    return user;
   }
 
   async getUserByEmail(email: string) {
