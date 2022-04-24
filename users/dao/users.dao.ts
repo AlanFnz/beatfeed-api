@@ -9,7 +9,7 @@ import { PutUserDto } from "../dto/put.user.dto";
 
 import mongooseService from "../../common/services/mongoose.service";
 
-const log: debug.IDebugger = debug("app:in-memory-dao");
+const log: debug.IDebugger = debug("app:users-dao");
 
 class UsersDao {
   Schema = mongooseService.getMongoose().Schema;
