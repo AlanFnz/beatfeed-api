@@ -31,11 +31,6 @@ class ConfigDao {
   }
 
   async addConfig(configFields: CreateConfigDto) {
-    //// FIXME: move to middleware validation ////
-    const count = await this.Config.countDocuments();
-    if (count > 0) return; 
-    //////////////////////////////////////////////
-
     const config = new this.Config({
       ...configFields,
     });
