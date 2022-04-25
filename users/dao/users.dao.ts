@@ -1,5 +1,5 @@
 import debug from "debug";
-import { Types } from 'mongoose';
+import { Types } from "mongoose";
 
 import { PermissionFlag } from "../../common/middleware/common.permissionflag.enum";
 
@@ -14,21 +14,129 @@ const log: debug.IDebugger = debug("app:users-dao");
 class UsersDao {
   Schema = mongooseService.getMongoose().Schema;
 
-  userSchema = new this.Schema(
-    {
-      email: String,
-      password: { type: String, select: false },
-      firstName: String,
-      lastName: String,
-      permissionFlags: Number,
-    },
-  );
+  userSchema = new this.Schema({
+    // user information //////
+    email: { type: String, required: true },
+    password: { type: String, select: false, required: true },
+    username: { type: String, required: true },
+    permissionFlags: Number,
+    //////////////////////////
 
-  User = mongooseService.getMongoose().model("Users", this.userSchema);
+    // personal information //
+    firstName: String,
+    lastName: String,
+    dateOfBirth: { type: Date, required: true },
+    location: String,
+    country: {
+      type: String,
+      default: "AR",
+      required: true,
+    },
+    //////////////////////////
+
+    // links /////////////////
+    instagramLink: String,
+    soundcloudLink: String,
+    twitterLink: String,
+    customLink: String,
+    //////////////////////////
+
+    // content saved /////////
+    savedEvents: [
+      {
+        type: Types.ObjectId,
+        ref: "Article", // TODO: pending create it
+      },
+    ],
+    savedArticles: [
+      {
+        type: Types.ObjectId,
+        ref: "Article", // TODO: pending create it
+      },
+    ],
+    // counts
+    eventsSavedCount: Number,
+    articlesSavedCount: Number,
+    //////////////////////////
+
+    // content liked /////////
+    likedEvents: [
+      {
+        type: Types.ObjectId,
+        ref: "Article", // TODO: pending create it
+      },
+    ],
+    likedArticles: [
+      {
+        type: Types.ObjectId,
+        ref: "Article", // TODO: pending create it
+      },
+    ],
+    likedComments: [
+      {
+        type: Types.ObjectId,
+        ref: "Article", // TODO: pending create it
+      },
+    ],
+    // counts
+    eventsLikedCount: Number,
+    articlesLikedCount: Number,
+    commentsLikedCount: Number,
+    //////////////////////////
+
+
+    // social ////////////////
+    following: [
+      {
+        type: Types.ObjectId,
+        ref: "User",
+      },
+    ],
+    followers: [
+      {
+        type: Types.ObjectId,
+        ref: "User",
+      },
+    ],
+    //////////////////////////
+
+    // auth dates ////////////
+    signupDate: {
+      type: Date,
+      default: Date.now,
+    },
+    lastLogin: {
+      type: Date,
+      default: Date.now,
+    },
+    //////////////////////////
+
+    // others ////////////////
+    globalNotifications: [
+      {
+        type: Types.ObjectId,
+        ref: "GlobalNotification", // TODO: pending create it
+      },
+    ],
+    reports: [
+      {
+        type: Types.ObjectId,
+        ref: "Report", // TODO: pending create it
+      },
+    ],
+    //////////////////////////
+  });
+
+  User = mongooseService.getMongoose().model("User", this.userSchema);
+
+  //////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
 
   constructor() {
     log("Created new instance of UsersDao");
   }
+
+  // methods /////////////////
 
   async addUser(userFields: CreateUserDto) {
     const user = new this.User({
