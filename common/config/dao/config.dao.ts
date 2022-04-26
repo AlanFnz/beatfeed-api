@@ -13,6 +13,7 @@ class ConfigDao {
 
   configSchema = new this.Schema(
     {
+      maintenance: Boolean,
       minimumAppVersion: String,
       features: [String], // TODO: update this one with reference to Feature object
       languages: [String],
