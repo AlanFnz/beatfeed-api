@@ -7,7 +7,7 @@ import { getObjectId } from "../../common/utils/util";
 
 const log: debug.IDebugger = debug("app:feature-flags-middleware");
 
-class featureFlagsMiddleware {
+class FeatureFlagsMiddleware {
   async validateFeatureExists(
     req: express.Request,
     res: express.Response,
@@ -33,4 +33,4 @@ class featureFlagsMiddleware {
   }
 }
 
-export default new featureFlagsMiddleware();
+export default new FeatureFlagsMiddleware();
