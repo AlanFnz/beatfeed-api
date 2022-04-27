@@ -2,110 +2,57 @@ import { Types } from "mongoose";
 
 export interface CreateUserDto {
   // user information //////
-  email: { type: String; required: true };
-  password: { type: String; select: false; required: true };
-  username: { type: String; required: true };
-  permissionFlags?: Number;
+  email: string;
+  password: string
+  username: string;
+  permissionFlags?: number;
   //////////////////////////
 
   // personal information //
-  firstName?: String;
-  lastName?: String;
-  dateOfBirth: { type: Date; requird: true };
-  location?: String;
-  country: {
-    type: String;
-    default: "AR";
-    required: true;
-  };
+  firstName?: string;
+  lastName?: string;
+  dateOfBirth: Date;
+  location?: string;
+  country: string;
   //////////////////////////
 
   // links /////////////////
-  instagramLink?: String;
-  soundcloudLink?: String;
-  twitterLink?: String;
-  customLink?: String;
+  instagramLink?: string;
+  soundcloudLink?: string;
+  twitterLink?: string;
+  customLink?: string;
   //////////////////////////
 
   // content saved /////////
-  savedEvents?: [
-    {
-      type: Types.ObjectId;
-      ref: "Article";
-    }
-  ];
-  savedArticles?: [
-    {
-      type: Types.ObjectId;
-      ref: "Article";
-    }
-  ];
+  savedEvents?: Types.ObjectId;
+  savedArticles?: Types.ObjectId;
   // counts
-  eventsSavedCount?: Number;
-  articlesSavedCount?: Number;
+  eventsSavedCount?: number;
+  articlesSavedCount?: number;
   //////////////////////////
 
   // content liked /////////
-  likedEvents?: [
-    {
-      type: Types.ObjectId;
-      ref: "Article";
-    }
-  ];
-  likedArticles?: [
-    {
-      type: Types.ObjectId;
-      ref: "Article";
-    }
-  ];
-  likedComments?: [
-    {
-      type: Types.ObjectId;
-      ref: "Article";
-    }
-  ];
+  likedEvents?: Types.ObjectId;
+  likedArticles?: Types.ObjectId;
+  likedComments?: Types.ObjectId;
   // counts
-  eventsLikedCount?: Number;
-  articlesLikedCount?: Number;
-  commentsLikedCount?: Number;
+  eventsLikedCount?: number;
+  articlesLikedCount?: number;
+  commentsLikedCount?: number;
   //////////////////////////
 
   // social ////////////////
-  following?: [
-    {
-      type: Types.ObjectId;
-      ref: "User";
-    }
-  ];
-  followers?: [
-    {
-      type: Types.ObjectId;
-      ref: "User";
-    }
-  ];
+  following?: Types.ObjectId;
+  followers?: Types.ObjectId;
   //////////////////////////
 
   // auth dates ////////////
-  signupDate?: {
-    type: Date;
-  };
-  lastLogin?: {
-    type: Date;
-  };
+  signupDate?: Date;
+  lastLogin?: Date;
   //////////////////////////
 
   // others ////////////////
-  globalNotifications?: [
-    {
-      type: Types.ObjectId;
-      ref: "GlobalNotification";
-    }
-  ];
-  reports?: [
-    {
-      type: Types.ObjectId;
-      ref: "Report";
-    }
-  ];
+  globalNotifications?: Types.ObjectId;
+  reports?: Types.ObjectId;
   //////////////////////////
 }
