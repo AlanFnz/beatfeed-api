@@ -1,18 +1,18 @@
 import debug from "debug";
 import { Types } from "mongoose";
 
-import { CreateUserDto } from "../dto/create.user.dto";
-import { PatchUserDto } from "../dto/patch.user.dto";
-import { PutUserDto } from "../dto/put.user.dto";
+import { CreateFeatureFlagDto } from "../dto/create.featureFlag.dto";
+import { PatchFeatureFlagDto } from "../dto/patch.featureFlag.dto";
+import { PutFeatureFlagDto } from "../dto/put.featureFlag.dto";
 
 import mongooseService from "../../common/services/mongoose.service";
 
-const log: debug.IDebugger = debug("app:users-dao");
+const log: debug.IDebugger = debug("app:feature-flags-dao");
 
 class FeatureFlagsDao {
   Schema = mongooseService.getMongoose().Schema;
 
-  userSchema = new this.Schema({
+  featureFlagSchema = new this.Schema({
     name: { type: String, required: true },
     version: { type: String, required: true },
     minimumAppVersion: { type: String, required: true },
@@ -22,7 +22,7 @@ class FeatureFlagsDao {
     permissionFlags: { type: Number }, // TODO: we may want to add a default value
   });
 
-  Feature = mongooseService.getMongoose().model("Feature", this.userSchema);
+  Feature = mongooseService.getMongoose().model("Feature", this.featureFlagSchema);
 
   //////////////////////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////
@@ -33,7 +33,7 @@ class FeatureFlagsDao {
 
   // methods /////////////////
 
-  async addFeature(featureFields: CreateUserDto) {
+  async addFeature(featureFields: CreateFeatureFlagDto) {
     return await new this.Feature(featureFields);
   }
 
@@ -49,11 +49,11 @@ class FeatureFlagsDao {
   }
 
   async updateFeatureById(
-    userId: Types.ObjectId,
-    featureFields: PatchUserDto | PutUserDto
+    featureId: Types.ObjectId,
+    featureFields: PatchFeatureFlagDto | PutFeatureFlagDto
   ) {
     const existingFeature = await this.Feature.findOneAndUpdate(
-      { _id: userId },
+      { _id: featureId },
       { $set: featureFields },
       { new: true }
     ).exec();
