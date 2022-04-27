@@ -5,7 +5,7 @@ import featureFlagsService from "../services/featureFlags.service";
 
 import { getObjectId } from "../../common/utils/util";
 
-const log: debug.IDebugger = debug("app:features-middleware");
+const log: debug.IDebugger = debug("app:feature-flags-middleware");
 
 class featureFlagsMiddleware {
   async validateFeatureExists(
