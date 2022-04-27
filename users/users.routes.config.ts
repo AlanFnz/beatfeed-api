@@ -42,7 +42,7 @@ export class UsersRoutes extends CommonRoutesConfig {
       .all(
         jwtMiddleware.validJWTNeeded,
         permissionMiddleware.permissionFlagRequired(
-          PermissionFlag.BASIC_USER_PERMISSION
+          PermissionFlag.ADMIN_PERMISSION
         ),
         UsersMiddleware.validateUserExists
       )
