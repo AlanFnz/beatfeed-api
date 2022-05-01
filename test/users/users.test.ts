@@ -1,20 +1,18 @@
 import app from "../../app";
 import supertest from "supertest";
 import { expect } from "chai";
-import shortid from "shortid";
 import mongoose from "mongoose";
 
 let firstUserIdTest = "";
-const firstUserBody = {
-  email: `alan.fernandez+${shortid.generate()}@beatfeed.io`,
-  password: "M3g4S3cr3t!23",
+export const firstUserBody = {
+  email: `test@test.test`,
+  password: "test1234",
+  username: "test",
+  dateOfBirth: 564519600000,
 };
 
 let accessToken = "";
 let refreshToken = "";
-const newFirstName = "Moro";
-const newFirstName2 = "Messi";
-const newLastName2 = "Enzo";
 
 describe("users and auth endpoints", function () {
   let request: supertest.SuperAgentTest;
@@ -62,13 +60,22 @@ describe("users and auth endpoints", function () {
     expect(res.body.email).to.equal(firstUserBody.email);
   });
 
-  describe('with a valid access token', function () {
-    it('should allow a GET from /users', async function () {
-        const res = await request
-            .get(`/users`)
-            .set({ Authorization: `Bearer ${accessToken}` })
-            .send();
-        expect(res.status).to.equal(403);
+  describe("with a valid access token", function () {
+    it("should allow a GET from /users", async function () {
+      const res = await request
+        .get(`/users`)
+        .set({ Authorization: `Bearer ${accessToken}` })
+        .send();
+      expect(res.status).to.equal(403);
     });
-});
+  });
+
+  it("should allow a DELETE from /users/:userId being the user itself", async function () {
+    const res = await request
+      .delete(`/users/${firstUserIdTest}`)
+      .set({ Authorization: `Bearer ${accessToken}` })
+      .send();
+    expect(res.status).to.equal(204);
+    expect(res.body).to.be.empty;
+  });
 });
