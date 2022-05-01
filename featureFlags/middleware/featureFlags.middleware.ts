@@ -28,7 +28,7 @@ class FeatureFlagsMiddleware {
     res: express.Response,
     next: express.NextFunction
   ) {
-    req.body.id = getObjectId(req.params.featureId.toString());
+    req.body._id = getObjectId(req.params.featureId.toString());
     next();
   }
 }

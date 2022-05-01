@@ -24,7 +24,7 @@ class ConfigController {
   }
 
   async deleteConfig(req: express.Request, res: express.Response) {
-    await configService.delete(getObjectId(req.body.id));
+    await configService.delete(getObjectId(req.body._id));
     res.status(204).send();
   }
 
