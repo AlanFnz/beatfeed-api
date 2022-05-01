@@ -14,7 +14,7 @@ class FeatureFlagsController {
   }
 
   async getFeatureById(req: express.Request, res: express.Response) {
-    const feature = await featureFlagsService.readById(req.body.id);
+    const feature = await featureFlagsService.readById(req.body._id);
     res.status(200).send(feature);
   }
 
@@ -28,18 +28,18 @@ class FeatureFlagsController {
     if (req.body.password) {
       req.body.password = await argon2.hash(req.body.password);
     }
-    log(await featureFlagsService.patchById(req.body.id, req.body));
+    log(await featureFlagsService.patchById(req.body._id, req.body));
     res.status(204).send();
   }
 
   async put(req: express.Request, res: express.Response) {
     req.body.password = await argon2.hash(req.body.password);
-    log(await featureFlagsService.putById(req.body.id, req.body));
+    log(await featureFlagsService.putById(req.body._id, req.body));
     res.status(204).send();
   }
 
   async removeFeature(req: express.Request, res: express.Response) {
-    log(await featureFlagsService.deleteById(req.body.id));
+    log(await featureFlagsService.deleteById(req.body._id));
     res.status(204).send();
   }
 
@@ -47,7 +47,7 @@ class FeatureFlagsController {
     const patchFeatureFlagDto: PatchFeatureFlagDto = {
       permissionFlags: parseInt(req.params.permissionFlags),
     };
-    log(await featureFlagsService.patchById(req.body.id, patchFeatureFlagDto));
+    log(await featureFlagsService.patchById(req.body._id, patchFeatureFlagDto));
     res.status(204).send();
   }
 }
