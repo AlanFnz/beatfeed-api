@@ -8,6 +8,7 @@ import UsersMiddleware from "./middleware/users.middleware";
 import BodyValidationMiddleware from "../common/middleware/body.validation.middleware";
 import jwtMiddleware from "../auth/middleware/jwt.middleware";
 import permissionMiddleware from "../common/middleware/common.permission.middleware";
+import CommonPermissionMiddleware from "../common/middleware/common.permission.middleware";
 import { PermissionFlag } from "../common/middleware/common.permissionflag.enum";
 
 export class UsersRoutes extends CommonRoutesConfig {
@@ -42,12 +43,15 @@ export class UsersRoutes extends CommonRoutesConfig {
       .all(
         jwtMiddleware.validJWTNeeded,
         permissionMiddleware.permissionFlagRequired(
-          PermissionFlag.ADMIN_PERMISSION
+          PermissionFlag.BASIC_USER_PERMISSION
         ),
         UsersMiddleware.validateUserExists
       )
       .get(UsersController.getUserById)
-      .delete(UsersController.removeUser);
+      .delete(
+        CommonPermissionMiddleware.onlySameUserOrAdminCanDoThisAction,
+        UsersController.removeUser
+      );
 
     this.app.put(`/users/:userId`, [
       body("email").isEmail(),
