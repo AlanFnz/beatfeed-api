@@ -65,7 +65,7 @@ class JwtMiddleware {
           next();
         }
       } catch (err) {
-        return res.status(403).send();
+        return res.status(403).send({ error: err.message });
       }
     } else {
       return res.status(401).send();
