@@ -1,8 +1,13 @@
+/////////////////////////////////////////////////////
+// FIXME: we need to properly arrange these tests ///
+///////// once we have a stable dev database with ///
+///////// a superadmin user for tests             ///
+/////////////////////////////////////////////////////
 import app from "../../app";
 import supertest from "supertest";
 import { expect } from "chai";
 import mongoose from "mongoose";
-import { firstUserBody } from "../users/users.test"; 
+import { firstUserBody } from "../users/users.test"; // FIXME: replace this with superadmin creds on env variables
 
 const featureBody = {
   name: 'Test feature',
