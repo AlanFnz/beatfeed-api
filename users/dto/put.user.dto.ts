@@ -8,6 +8,11 @@ export interface PutUserDto {
   permissionFlags: number;
   //////////////////////////
 
+  // user status ///////////
+  enabled: boolean;
+  lastStatusUpdate: Date;
+  //////////////////////////
+
   // personal information //
   firstName: string;
   lastName: string;

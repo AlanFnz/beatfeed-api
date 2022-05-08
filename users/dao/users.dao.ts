@@ -22,6 +22,14 @@ class UsersDao {
     permissionFlags: Number,
     //////////////////////////
 
+    // user status ///////////
+    enabled: { type: Boolean, required: true, default: true },
+    lastStatusUpdate: {
+      type: Date,
+      default: Date.now,
+    },
+    //////////////////////////
+
     // personal information //
     firstName: String,
     lastName: String,
@@ -83,7 +91,6 @@ class UsersDao {
     articlesLikedCount: Number,
     commentsLikedCount: Number,
     //////////////////////////
-
 
     // social ////////////////
     following: [
