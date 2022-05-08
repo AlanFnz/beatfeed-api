@@ -3,9 +3,14 @@ import { Types } from "mongoose";
 export interface CreateUserDto {
   // user information //////
   email: string;
-  password: string
+  password: string;
   username: string;
   permissionFlags?: number;
+  //////////////////////////
+
+  // user status ///////////
+  enabled: boolean;
+  lastStatusUpdate?: Date;
   //////////////////////////
 
   // personal information //
