@@ -3,7 +3,7 @@ import configService from "../services/config.service";
 import debug from "debug";
 
 import { PatchConfigDto } from "../dto/patch.config.dto";
-import { getObjectId } from "../../utils/util";
+import { getObjectId } from "../../common/utils/util";
 
 const log: debug.IDebugger = debug("app:config-controller");
 

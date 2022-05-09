@@ -10,6 +10,8 @@ import jwtMiddleware from "../auth/middleware/jwt.middleware";
 import permissionMiddleware from "../common/middleware/common.permission.middleware";
 import CommonPermissionMiddleware from "../common/middleware/common.permission.middleware";
 import { PermissionFlag } from "../common/middleware/common.permissionflag.enum";
+// @ts-ignore
+import { USERS } from "../common/constants/endpoints";
 
 export class UsersRoutes extends CommonRoutesConfig {
   constructor(app: express.Application) {
@@ -18,7 +20,7 @@ export class UsersRoutes extends CommonRoutesConfig {
 
   configureRoutes(): express.Application {
     this.app
-      .route(`/users`)
+      .route(USERS.USERS)
       .get(
         jwtMiddleware.validJWTNeeded,
         permissionMiddleware.permissionFlagRequired(
@@ -39,7 +41,7 @@ export class UsersRoutes extends CommonRoutesConfig {
     this.app.param(`userId`, UsersMiddleware.extractUserId);
 
     this.app
-      .route(`/users/:userId`)
+      .route(USERS.USER_ID)
       .all(
         jwtMiddleware.validJWTNeeded,
         permissionMiddleware.permissionFlagRequired(
@@ -53,7 +55,7 @@ export class UsersRoutes extends CommonRoutesConfig {
         UsersController.removeUser
       );
 
-    this.app.put(`/users/:userId`, [
+    this.app.put(USERS.USER_ID, [
       body("email").isEmail(),
       body("password")
         .isLength({ min: 5 })
@@ -67,7 +69,7 @@ export class UsersRoutes extends CommonRoutesConfig {
       UsersController.put,
     ]);
 
-    this.app.patch(`/users/:userId`, [
+    this.app.patch(USERS.USER_ID, [
       body("email").isEmail().optional(),
       body("password")
         .isLength({ min: 5 })
@@ -82,7 +84,7 @@ export class UsersRoutes extends CommonRoutesConfig {
       UsersController.patch,
     ]);
 
-    this.app.put(`/users/:userId/permissionFlags/:permissionFlags`, [
+    this.app.put(USERS.USER_PERMISSION_FLAGS, [
       jwtMiddleware.validJWTNeeded,
       permissionMiddleware.onlySameUserOrAdminCanDoThisAction,
 

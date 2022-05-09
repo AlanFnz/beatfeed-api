@@ -1,11 +1,11 @@
-import { CommonRoutesConfig } from "../common.routes.config";
+import { CommonRoutesConfig } from "../common/common.routes.config";
 import express from "express";
 
 import ConfigController from "./controller/config.controller";
 
-import jwtMiddleware from "../../auth/middleware/jwt.middleware";
-import permissionMiddleware from "../middleware/common.permission.middleware";
-import { PermissionFlag } from "../middleware/common.permissionflag.enum";
+import jwtMiddleware from "../auth/middleware/jwt.middleware";
+import permissionMiddleware from "../common/middleware/common.permission.middleware";
+import { PermissionFlag } from "../common/middleware/common.permissionflag.enum";
 
 export class ConfigRoutes extends CommonRoutesConfig {
   constructor(app: express.Application) {
