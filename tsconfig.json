@@ -7,5 +7,6 @@
     "esModuleInterop": true,
     "inlineSourceMap": true,
     "useUnknownInCatchVariables": false,
+    "allowJs": true,
   }
 }
