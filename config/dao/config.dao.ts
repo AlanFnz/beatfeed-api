@@ -4,7 +4,7 @@ import { Types } from 'mongoose';
 import { CreateConfigDto } from "../dto/create.config.dto";
 import { PatchConfigDto } from "../dto/patch.config.dto";
 
-import mongooseService from "../../services/mongoose.service";
+import mongooseService from "../../common/services/mongoose.service";
 
 const log: debug.IDebugger = debug("app:config-dao");
 

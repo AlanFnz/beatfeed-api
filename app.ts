@@ -11,7 +11,7 @@ import cors from "cors";
 import { CommonRoutesConfig } from "./common/common.routes.config";
 import { UsersRoutes } from "./users/users.routes.config";
 import { AuthRoutes } from "./auth/auth.routes.config";
-import { ConfigRoutes } from "./common/config/config.routes.config";
+import { ConfigRoutes } from "./config/config.routes.config";
 
 const app: express.Application = express();
 const dotenvResult = dotenv.config();
