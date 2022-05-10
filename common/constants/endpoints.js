@@ -4,6 +4,9 @@ const PARAM_CONFIG_ID = "/:configId";
 /////// FEATURES ///////
 const FEATURES_BASE = "/features";
 const PARAM_FEATURE_ID = "/:featureId";
+//////// AUTH /////////
+const AUTH_BASE = "/auth";
+const AUTH_REFRESH_TOKEN = "/refresh-token";
 //////// USERS /////////
 const USERS_BASE = "/users";
 const PARAM_USER_ID = "/:userId";
@@ -14,13 +17,6 @@ const PARAM_PERMISSION_FLAGS = "/:permissionFlags";
 ////////////////////////
 ////////////////////////
 ////////////////////////
-
-export const USERS = {
-  USERS: USERS_BASE,
-  USER_ID: USERS_BASE + PARAM_USER_ID,
-  USER_PERMISSION_FLAGS:
-    USERS_BASE + PARAM_USER_ID + PERMISSION_FLAGS + PARAM_PERMISSION_FLAGS,
-};
 
 export const CONFIG = {
   CONFIG: CONFIG_BASE,
@@ -35,4 +31,16 @@ export const FEATURES = {
     PARAM_FEATURE_ID +
     PERMISSION_FLAGS +
     PARAM_PERMISSION_FLAGS,
+};
+
+export const AUTH = {
+  AUTH: AUTH_BASE,
+  AUTH_REFRESH_TOKEN: AUTH_BASE + AUTH_REFRESH_TOKEN,
+};
+
+export const USERS = {
+  USERS: USERS_BASE,
+  USER_ID: USERS_BASE + PARAM_USER_ID,
+  USER_PERMISSION_FLAGS:
+    USERS_BASE + PARAM_USER_ID + PERMISSION_FLAGS + PARAM_PERMISSION_FLAGS,
 };
