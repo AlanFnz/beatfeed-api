@@ -9,6 +9,8 @@ import BodyValidationMiddleware from "../common/middleware/body.validation.middl
 import jwtMiddleware from "../auth/middleware/jwt.middleware";
 import permissionMiddleware from "../common/middleware/common.permission.middleware";
 import { PermissionFlag } from "../common/middleware/common.permissionflag.enum";
+// @ts-ignore
+import { FEATURES } from "../common/constants/endpoints";
 
 export class FeatureFlagsRoutes extends CommonRoutesConfig {
   constructor(app: express.Application) {
@@ -17,7 +19,7 @@ export class FeatureFlagsRoutes extends CommonRoutesConfig {
 
   configureRoutes(): express.Application {
     this.app
-      .route(`/features`)
+      .route(FEATURES.FEATURES)
       .get(
         jwtMiddleware.validJWTNeeded,
         permissionMiddleware.permissionFlagRequired(
@@ -41,7 +43,7 @@ export class FeatureFlagsRoutes extends CommonRoutesConfig {
     this.app.param(`featureId`, FeatureFlagsMiddleware.extractFeatureId);
 
     this.app
-      .route(`/features/:featureId`)
+      .route(FEATURES.FEATURE_ID)
       .all(
         jwtMiddleware.validJWTNeeded,
         permissionMiddleware.permissionFlagRequired(
@@ -52,7 +54,7 @@ export class FeatureFlagsRoutes extends CommonRoutesConfig {
       .get(FeatureFlagsController.getFeatureById)
       .delete(FeatureFlagsController.removeFeature);
 
-    this.app.put(`/features/:featureId`, [
+    this.app.put(FEATURES.FEATURE_ID, [
       body("name")
         .isLength({ min: 5 })
         .withMessage("Must include password (+5 characters)"),
@@ -66,7 +68,7 @@ export class FeatureFlagsRoutes extends CommonRoutesConfig {
       FeatureFlagsController.put,
     ]);
 
-    this.app.patch(`/features/:featureId`, [
+    this.app.patch(FEATURES.FEATURE_ID, [
       body("name")
         .isLength({ min: 5 })
         .withMessage("Must include password (+5 characters)"),
@@ -80,7 +82,7 @@ export class FeatureFlagsRoutes extends CommonRoutesConfig {
       FeatureFlagsController.patch,
     ]);
 
-    this.app.put(`/features/:featureId/permissionFlags/:permissionFlags`, [
+    this.app.put(FEATURES.FEATURE_PERMISSION_FLAGS, [
       jwtMiddleware.validJWTNeeded,
       permissionMiddleware.permissionFlagRequired(
         PermissionFlag.ADMIN_PERMISSION
