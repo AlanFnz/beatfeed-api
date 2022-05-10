@@ -1,6 +1,9 @@
 //////// CONFIG ////////
 const CONFIG_BASE = "/config";
 const PARAM_CONFIG_ID = "/:configId";
+/////// FEATURES ///////
+const FEATURES_BASE = "/features";
+const PARAM_FEATURE_ID = "/:featureId";
 //////// USERS /////////
 const USERS_BASE = "/users";
 const PARAM_USER_ID = "/:userId";
@@ -22,4 +25,14 @@ export const USERS = {
 export const CONFIG = {
   CONFIG: CONFIG_BASE,
   CONFIG_ID: CONFIG_BASE + PARAM_CONFIG_ID,
+};
+
+export const FEATURES = {
+  FEATURES: FEATURES_BASE,
+  FEATURE_ID: FEATURES_BASE + PARAM_FEATURE_ID,
+  FEATURE_PERMISSION_FLAGS:
+    FEATURES_BASE +
+    PARAM_FEATURE_ID +
+    PERMISSION_FLAGS +
+    PARAM_PERMISSION_FLAGS,
 };
