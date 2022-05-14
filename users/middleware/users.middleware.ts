@@ -88,6 +88,26 @@ class UsersMiddleware {
       next();
     }
   }
+
+  async updateUserLastLogin(
+    req: express.Request,
+    res: express.Response,
+    next: express.NextFunction
+  ) {
+    try {
+      const user = await userService.readById(getObjectId(req.body.userId));
+      console.log('user', user);
+      user.lastLogin = Date.now();
+      console.log('user after date', user);
+      user.save();
+      next();
+    } catch (e) {
+      res.status(404).send({
+        // error: `Something went wrong when updating this user's last login date`,
+        error: e.message,
+      });
+    }
+  }
 }
 
 export default new UsersMiddleware();

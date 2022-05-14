@@ -6,6 +6,7 @@ import authController from "./controller/auth.controller";
 import jwtMiddleware from "./middleware/jwt.middleware";
 import authMiddleware from "./middleware/auth.middleware";
 import BodyValidationMiddleware from "../common/middleware/body.validation.middleware";
+import usersMiddleware from "../users/middleware/users.middleware";
 // @ts-ignore
 import { AUTH } from "../common/constants/endpoints";
 
@@ -20,6 +21,7 @@ export class AuthRoutes extends CommonRoutesConfig {
       body("password").isString(),
       BodyValidationMiddleware.verifyBodyFieldsErrors,
       authMiddleware.verifyUserPassword,
+      usersMiddleware.updateUserLastLogin,
       authController.createJWT,
     ]);
 
