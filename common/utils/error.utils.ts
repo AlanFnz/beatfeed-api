@@ -38,3 +38,9 @@ export class HTTP400Error extends BaseError {
     super(name, HttpStatusCode.BAD_REQUEST, description, true);
   }
 }
+
+export class HTTP404Error extends BaseError {
+  constructor(name = "not found", description: string) {
+    super(name, HttpStatusCode.NOT_FOUND, description, true);
+  }
+}
