@@ -39,6 +39,12 @@ export class HTTP400Error extends BaseError {
   }
 }
 
+export class HTTP403Error extends BaseError {
+  constructor(description: string, name = "forbidden") {
+    super(name, HttpStatusCode.FORBIDDEN, description, true);
+  }
+}
+
 export class HTTP404Error extends BaseError {
   constructor(description: string, name = "not found") {
     super(name, HttpStatusCode.NOT_FOUND, description, true);
