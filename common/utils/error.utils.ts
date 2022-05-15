@@ -24,7 +24,7 @@ export class BaseError extends Error {
 
 export class APIError extends BaseError {
   constructor(
-    name: string,
+    name = "internal server error",
     httpCode = HttpStatusCode.INTERNAL_SERVER,
     description = "internal server error",
     isOperational = true
