@@ -34,13 +34,13 @@ export class APIError extends BaseError {
 }
 
 export class HTTP400Error extends BaseError {
-  constructor(name = "bad request", description: string) {
+  constructor(description: string, name = "bad request") {
     super(name, HttpStatusCode.BAD_REQUEST, description, true);
   }
 }
 
 export class HTTP404Error extends BaseError {
-  constructor(name = "not found", description: string) {
+  constructor(description: string, name = "not found") {
     super(name, HttpStatusCode.NOT_FOUND, description, true);
   }
 }
