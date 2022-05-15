@@ -1,4 +1,4 @@
-import { HttpStatusCode } from "../constants/httpStatusCode";
+import { HttpStatusCode } from "../constants/httpStatusCode.constants";
 
 export class BaseError extends Error {
   public readonly name: string;
