@@ -27,7 +27,6 @@ export class APIError extends BaseError {
     description: string,
     name = "internal server error",
     httpCode = HttpStatusCode.INTERNAL_SERVER,
-    description = "internal server error",
     isOperational = true
   ) {
     super(name, httpCode, description, isOperational);
