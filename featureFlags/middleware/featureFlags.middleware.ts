@@ -3,7 +3,7 @@ import debug from "debug";
 
 import featureFlagsService from "../services/featureFlags.service";
 
-import { getObjectId } from "../../common/utils/util";
+import { getObjectId } from "../../common/utils/db.utils";
 
 const log: debug.IDebugger = debug("app:feature-flags-middleware");
 

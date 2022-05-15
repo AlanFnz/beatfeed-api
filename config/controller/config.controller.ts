@@ -2,8 +2,7 @@ import express from "express";
 import configService from "../services/config.service";
 import debug from "debug";
 
-import { PatchConfigDto } from "../dto/patch.config.dto";
-import { getObjectId } from "../../common/utils/util";
+import { getObjectId } from "../../common/utils/db.utils";
 
 const log: debug.IDebugger = debug("app:config-controller");
 
