@@ -4,6 +4,11 @@ import debug from "debug";
 import userService from "../services/users.service";
 
 import { getObjectId } from "../../common/utils/db.utils";
+import {
+  APIError,
+  HTTP400Error,
+  HTTP404Error,
+} from "../../common/utils/error.utils";
 
 const log: debug.IDebugger = debug("app:users-middleware");
 
@@ -16,6 +21,7 @@ class UsersMiddleware {
     const user = await userService.getUserByEmail(req.body.email);
     if (user) {
       res.status(400).send({ errors: ["User email already exists"] });
+      throw new HTTP400Error("User email already exists");
     } else {
       next();
     }
@@ -30,6 +36,7 @@ class UsersMiddleware {
       next();
     } else {
       res.status(400).send({ errors: ["Invalid email"] });
+      throw new HTTP400Error("Invalid email");
     }
   }
 
@@ -60,6 +67,7 @@ class UsersMiddleware {
       res.status(404).send({
         errors: [`User ${req.params.userId} not found`],
       });
+      throw new HTTP404Error(`User ${req.params.userId} not found`);
     }
   }
 
@@ -84,6 +92,7 @@ class UsersMiddleware {
       res.status(400).send({
         errors: ["User cannot change permission flags"],
       });
+      throw new HTTP400Error("User cannot change permission flags");
     } else {
       next();
     }
@@ -95,16 +104,21 @@ class UsersMiddleware {
     next: express.NextFunction
   ) {
     const user = await userService.readById(getObjectId(req.body.userId));
-    try {
-      user.lastLogin = Date.now();
-      user.save();
-      next();
-    } catch (e) {
-      res.status(404).send({
-        errors: [
-          "Something went wrong when updating this user's last login date",
-        ],
-      });
+    if (user) {
+      try {
+        user.lastLogin = Date.now();
+        user.save();
+        next();
+      } catch (e) {
+        res.status(500).send({
+          errors: [
+            "Something went wrong when updating this user's last login date",
+          ],
+        });
+        throw new APIError(
+          "Something went wrong when updating this user's last login date"
+        );
+      }
     }
   }
 }
