@@ -29,7 +29,7 @@ class UsersMiddleware {
     if (res.locals.user._id.toString() === req.params.userId.toString()) {
       next();
     } else {
-      res.status(400).send({ error: `Invalid email` });
+      res.status(400).send({ error: "Invalid email" });
     }
   }
 
@@ -101,7 +101,9 @@ class UsersMiddleware {
       next();
     } catch (e) {
       res.status(404).send({
-        errors: [`Something went wrong when updating this user's last login date`],
+        errors: [
+          "Something went wrong when updating this user's last login date",
+        ],
       });
     }
   }
