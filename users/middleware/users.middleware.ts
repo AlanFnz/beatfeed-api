@@ -3,7 +3,7 @@ import debug from "debug";
 
 import userService from "../services/users.service";
 
-import { getObjectId } from "../../common/utils/util";
+import { getObjectId } from "../../common/utils/db.utils";
 
 const log: debug.IDebugger = debug("app:users-middleware");
 
@@ -94,17 +94,14 @@ class UsersMiddleware {
     res: express.Response,
     next: express.NextFunction
   ) {
+    const user = await userService.readById(getObjectId(req.body.userId));
     try {
-      const user = await userService.readById(getObjectId(req.body.userId));
-      console.log('user', user);
       user.lastLogin = Date.now();
-      console.log('user after date', user);
       user.save();
       next();
     } catch (e) {
       res.status(404).send({
-        // error: `Something went wrong when updating this user's last login date`,
-        error: e.message,
+        errors: [`Something went wrong when updating this user's last login date`],
       });
     }
   }
