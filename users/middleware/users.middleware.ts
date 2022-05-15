@@ -94,14 +94,14 @@ class UsersMiddleware {
     res: express.Response,
     next: express.NextFunction
   ) {
+    const user = await userService.readById(getObjectId(req.body.userId));
     try {
-      const user = await userService.readById(getObjectId(req.body.userId));
       user.lastLogin = Date.now();
       user.save();
       next();
     } catch (e) {
       res.status(404).send({
-        error: `Something went wrong when updating this user's last login date`,
+        errors: [`Something went wrong when updating this user's last login date`],
       });
     }
   }
