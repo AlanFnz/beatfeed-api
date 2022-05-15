@@ -67,6 +67,7 @@ app.use(expressWinston.logger(loggerOptions));
 
 // error handling
 process.on("unhandledRejection", (reason: Error, promise: Promise<any>) => {
+  debugLog("catched unhandledRejection", reason);
   throw reason;
 });
 
