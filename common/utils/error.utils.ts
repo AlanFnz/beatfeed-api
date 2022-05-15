@@ -1,4 +1,4 @@
-import { HttpStatusCode } from "../constants/httpStatusCode";
+import { HttpStatusCode } from "../constants/httpStatusCode.constants";
 
 export class BaseError extends Error {
   public readonly name: string;
@@ -24,9 +24,9 @@ export class BaseError extends Error {
 
 export class APIError extends BaseError {
   constructor(
-    name: string,
+    description: string,
+    name = "internal server error",
     httpCode = HttpStatusCode.INTERNAL_SERVER,
-    description = "internal server error",
     isOperational = true
   ) {
     super(name, httpCode, description, isOperational);
@@ -34,7 +34,19 @@ export class APIError extends BaseError {
 }
 
 export class HTTP400Error extends BaseError {
-  constructor(description = "bad request") {
-    super("NOT FOUND", HttpStatusCode.BAD_REQUEST, description, true);
+  constructor(description: string, name = "bad request") {
+    super(name, HttpStatusCode.BAD_REQUEST, description, true);
+  }
+}
+
+export class HTTP403Error extends BaseError {
+  constructor(description: string, name = "forbidden") {
+    super(name, HttpStatusCode.FORBIDDEN, description, true);
+  }
+}
+
+export class HTTP404Error extends BaseError {
+  constructor(description: string, name = "not found") {
+    super(name, HttpStatusCode.NOT_FOUND, description, true);
   }
 }

@@ -4,6 +4,7 @@ import argon2 from "argon2";
 import debug from "debug";
 
 import { PatchUserDto } from "../dto/patch.user.dto";
+import { APIError } from "../../common/utils/error.utils";
 
 const log: debug.IDebugger = debug("app:users-controller");
 
@@ -25,7 +26,10 @@ class UsersController {
       res.status(201).send(user);
     } catch (e) {
       log(e);
-      res.status(400).send({ error: e.message });
+      res.status(500).send({
+        errors: ["Something went wrong when creating this user"],
+      });
+      throw new APIError("Something went wrong when creating this user");
     }
   }
 

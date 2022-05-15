@@ -2,6 +2,7 @@ import express from "express";
 import debug from "debug";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
+import { APIError } from "../../common/utils/error.utils";
 
 const log: debug.IDebugger = debug("app:auth-controller");
 
@@ -25,7 +26,8 @@ class AuthController {
       return res.status(201).send({ accessToken: token, refreshToken: hash });
     } catch (err) {
       log("createJWT error: %O", err);
-      return res.status(500).send();
+      res.status(500).send();
+      throw new APIError("Something went wrong when creating this token");
     }
   }
 }

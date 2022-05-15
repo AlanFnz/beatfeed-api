@@ -13,6 +13,8 @@ import { UsersRoutes } from "./users/users.routes.config";
 import { AuthRoutes } from "./auth/auth.routes.config";
 import { ConfigRoutes } from "./config/config.routes.config";
 
+import { errorHandler } from "./common/handlers/error.handler";
+
 const app: express.Application = express();
 const dotenvResult = dotenv.config();
 const server: http.Server = http.createServer(app);
@@ -62,6 +64,19 @@ if (!process.env.DEBUG) {
 
 // initialize logger
 app.use(expressWinston.logger(loggerOptions));
+
+// error handling
+process.on("unhandledRejection", (reason: Error, promise: Promise<any>) => {
+  debugLog("catched unhandledRejection", reason);
+  throw reason;
+});
+
+process.on("uncaughtException", (error: Error) => {
+  errorHandler.handleError(error);
+  if (!errorHandler.isTrustedError(error)) {
+    process.exit(1);
+  }
+});
 
 // add routes
 routes.push(new UsersRoutes(app));

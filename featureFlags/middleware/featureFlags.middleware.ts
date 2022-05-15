@@ -4,6 +4,7 @@ import debug from "debug";
 import featureFlagsService from "../services/featureFlags.service";
 
 import { getObjectId } from "../../common/utils/db.utils";
+import { APIError, HTTP404Error } from "../../common/utils/error.utils";
 
 const log: debug.IDebugger = debug("app:feature-flags-middleware");
 
@@ -20,6 +21,7 @@ class FeatureFlagsMiddleware {
       res.status(404).send({
         error: `Feature ${req.params.featureId} not found`,
       });
+      throw new HTTP404Error(`Feature ${req.params.userId} not found`);
     }
   }
 
@@ -28,7 +30,18 @@ class FeatureFlagsMiddleware {
     res: express.Response,
     next: express.NextFunction
   ) {
-    req.body._id = getObjectId(req.params.featureId.toString());
+    try {
+      req.body._id = getObjectId(req.params.featureId.toString());
+    } catch (e) {
+      res.status(500).send({
+        errors: [
+          "Something went wrong when getting this object id",
+        ],
+      });
+      throw new APIError(
+        "Something went wrong when getting this object id"
+      );
+    }
     next();
   }
 }
