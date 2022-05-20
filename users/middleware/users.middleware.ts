@@ -4,6 +4,7 @@ import debug from "debug";
 import userService from "../services/users.service";
 
 import { getObjectId } from "../../common/utils/db.utils";
+import { HttpStatusCode } from "../../common/constants/httpStatusCode.constants";
 import {
   APIError,
   HTTP400Error,
@@ -20,7 +21,7 @@ class UsersMiddleware {
   ) {
     const user = await userService.getUserByEmail(req.body.email);
     if (user) {
-      res.status(400).send({ errors: ["User email already exists"] });
+      res.status(HttpStatusCode.BAD_REQUEST).send({ errors: ["User email already exists"] });
       throw new HTTP400Error("User email already exists");
     } else {
       next();
@@ -35,7 +36,7 @@ class UsersMiddleware {
     if (res.locals.user._id.toString() === req.params.userId.toString()) {
       next();
     } else {
-      res.status(400).send({ errors: ["Invalid email"] });
+      res.status(HttpStatusCode.BAD_REQUEST).send({ errors: ["Invalid email"] });
       throw new HTTP400Error("Invalid email");
     }
   }
@@ -64,7 +65,7 @@ class UsersMiddleware {
       res.locals.user = user;
       next();
     } else {
-      res.status(404).send({
+      res.status(HttpStatusCode.NOT_FOUND).send({
         errors: [`User ${req.params.userId} not found`],
       });
       throw new HTTP404Error(`User ${req.params.userId} not found`);
@@ -89,7 +90,7 @@ class UsersMiddleware {
       "permissionFlags" in req.body &&
       req.body.permissionFlags !== res.locals.user.permissionFlags
     ) {
-      res.status(400).send({
+      res.status(HttpStatusCode.BAD_REQUEST).send({
         errors: ["User cannot change permission flags"],
       });
       throw new HTTP400Error("User cannot change permission flags");
@@ -110,7 +111,7 @@ class UsersMiddleware {
         user.save();
         next();
       } catch (e) {
-        res.status(500).send({
+        res.status(HttpStatusCode.INTERNAL_SERVER).send({
           errors: [
             "Something went wrong when updating this user's last login date",
           ],

@@ -1,5 +1,6 @@
 import express from "express";
 import { validationResult } from "express-validator";
+import { HttpStatusCode } from "../constants/httpStatusCode.constants";
 import { HTTP400Error } from "../utils/error.utils";
 
 class BodyValidationMiddleware {
@@ -10,7 +11,7 @@ class BodyValidationMiddleware {
   ) {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      res.status(400).send({ errors: errors.array() });
+      res.status(HttpStatusCode.BAD_REQUEST).send({ errors: errors.array() });
       throw new HTTP400Error(
         "One or more errors occurred when validating this request body"
       );

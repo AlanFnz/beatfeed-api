@@ -3,6 +3,7 @@ import debug from "debug";
 
 import { PermissionFlag } from "./common.permissionflag.enum";
 import { APIError, HTTP403Error } from "../utils/error.utils";
+import { HttpStatusCode } from "../constants/httpStatusCode.constants";
 
 class CommonPermissionMiddleware {
   log: debug.IDebugger = debug("app:common-permission-middleware");
@@ -18,7 +19,7 @@ class CommonPermissionMiddleware {
         if (userPermissionFlags & requiredPermissionFlag) {
           next();
         } else {
-          res.status(403).send();
+          res.status(HttpStatusCode.FORBIDDEN).send();
           throw new HTTP403Error(
             "This user doesn't have the required permissions"
           );
@@ -48,7 +49,7 @@ class CommonPermissionMiddleware {
       if (userPermissionFlags & PermissionFlag.ADMIN_PERMISSION) {
         return next();
       } else {
-        res.status(403).send();
+        res.status(HttpStatusCode.FORBIDDEN).send();
         throw new HTTP403Error(
           "This user doesn't have the required permissions"
         );
@@ -65,7 +66,7 @@ class CommonPermissionMiddleware {
       "permissionFlags" in req.body &&
       req.body.permissionFlags !== res.locals.user.permissionFlags
     ) {
-      res.status(403).send({
+      res.status(HttpStatusCode.FORBIDDEN).send({
         errors: ["User cannot change permission flags"],
       });
       throw new HTTP403Error("User cannot change permission flags");
