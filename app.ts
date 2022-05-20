@@ -14,6 +14,7 @@ import { AuthRoutes } from "./auth/auth.routes.config";
 import { ConfigRoutes } from "./config/config.routes.config";
 
 import { errorHandler } from "./common/handlers/error.handler";
+import { HttpStatusCode } from "./common/constants/httpStatusCode.constants";
 
 const app: express.Application = express();
 const dotenvResult = dotenv.config();
@@ -86,7 +87,7 @@ routes.push(new ConfigRoutes(app));
 // make sure everything is working properly
 const runningMessage = `Server running at http://localhost:${port}`;
 app.get("/", (req: express.Request, res: express.Response) => {
-  res.status(200).send(runningMessage);
+  res.status(HttpStatusCode.SUCCESS).send(runningMessage);
 });
 
 export default server.listen(port, () => {

@@ -5,28 +5,29 @@ import debug from "debug";
 
 import { PatchUserDto } from "../dto/patch.user.dto";
 import { APIError } from "../../common/utils/error.utils";
+import { HttpStatusCode } from "../../common/constants/httpStatusCode.constants";
 
 const log: debug.IDebugger = debug("app:users-controller");
 
 class UsersController {
   async listUsers(req: express.Request, res: express.Response) {
     const users = await usersService.list(100, 0);
-    res.status(200).send(users);
+    res.status(HttpStatusCode.SUCCESS).send(users);
   }
 
   async getUserById(req: express.Request, res: express.Response) {
     const user = await usersService.readById(req.body._id);
-    res.status(200).send(user);
+    res.status(HttpStatusCode.SUCCESS).send(user);
   }
 
   async createUser(req: express.Request, res: express.Response) {
     req.body.password = await argon2.hash(req.body.password);
     try {
       const user = await usersService.create(req.body);
-      res.status(201).send(user);
+      res.status(HttpStatusCode.CREATED).send(user);
     } catch (e) {
       log(e);
-      res.status(500).send({
+      res.status(HttpStatusCode.INTERNAL_SERVER).send({
         errors: ["Something went wrong when creating this user"],
       });
       throw new APIError("Something went wrong when creating this user");
@@ -38,18 +39,18 @@ class UsersController {
       req.body.password = await argon2.hash(req.body.password);
     }
     log(await usersService.patchById(req.body._id, req.body));
-    res.status(204).send();
+    res.status(HttpStatusCode.NO_CONTENT).send();
   }
 
   async put(req: express.Request, res: express.Response) {
     req.body.password = await argon2.hash(req.body.password);
     log(await usersService.putById(req.body._id, req.body));
-    res.status(204).send();
+    res.status(HttpStatusCode.NO_CONTENT).send();
   }
 
   async removeUser(req: express.Request, res: express.Response) {
     log(await usersService.deleteById(req.body._id));
-    res.status(204).send();
+    res.status(HttpStatusCode.NO_CONTENT).send();
   }
 
   async updatePermissionFlags(req: express.Request, res: express.Response) {
@@ -57,7 +58,7 @@ class UsersController {
       permissionFlags: parseInt(req.params.permissionFlags),
     };
     log(await usersService.patchById(req.body._id, patchUserDto));
-    res.status(204).send();
+    res.status(HttpStatusCode.NO_CONTENT).send();
   }
 }
 

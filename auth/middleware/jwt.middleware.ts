@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import crypto from "crypto";
 import { Jwt } from "../../common/types/jwt";
 import usersService from "../../users/services/users.service";
+import { HttpStatusCode } from "../../common/constants/httpStatusCode.constants";
 
 class JwtMiddleware {
   verifyRefreshBodyField(
@@ -44,7 +45,7 @@ class JwtMiddleware {
       };
       return next();
     } else {
-      return res.status(400).send({ errors: ["Invalid refresh token"] });
+      return res.status(HttpStatusCode.BAD_REQUEST).send({ errors: ["Invalid refresh token"] });
     }
   }
 
@@ -59,16 +60,16 @@ class JwtMiddleware {
         const jwtSecret: string = process.env.JWT_SECRET;
         const authorization = req.headers["authorization"].split(" ");
         if (authorization[0] !== "Bearer") {
-          return res.status(401).send();
+          return res.status(HttpStatusCode.CREATED).send();
         } else {
           res.locals.jwt = jwt.verify(authorization[1], jwtSecret) as Jwt;
           next();
         }
       } catch (err) {
-        return res.status(403).send({ error: err.message });
+        return res.status(HttpStatusCode.FORBIDDEN).send({ error: err.message });
       }
     } else {
-      return res.status(401).send();
+      return res.status(HttpStatusCode.CREATED).send();
     }
   }
 }
