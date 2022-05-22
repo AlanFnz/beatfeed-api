@@ -4,6 +4,7 @@ import * as argon2 from "argon2";
 
 import { HTTP400Error } from "../../common/utils/error.utils";
 import { HttpStatusCode } from "../../common/constants/httpStatusCode.constants";
+import { ResponseMessages } from "../../common/constants/responseMessages.constants";
 
 class AuthMiddleware {
   async verifyUserPassword(
@@ -25,8 +26,10 @@ class AuthMiddleware {
         return next();
       }
     }
-    res.status(HttpStatusCode.BAD_REQUEST).send({ errors: ["Invalid email and/or password"] });
-    throw new HTTP400Error("Invalid email and/or password");
+    res
+      .status(HttpStatusCode.BAD_REQUEST)
+      .send({ errors: [ResponseMessages.INVALID_DATA] });
+    throw new HTTP400Error(ResponseMessages.INVALID_DATA);
   }
 }
 

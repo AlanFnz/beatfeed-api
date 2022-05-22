@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import crypto from "crypto";
 import { APIError } from "../../common/utils/error.utils";
 import { HttpStatusCode } from "../../common/constants/httpStatusCode.constants";
+import { ResponseMessages } from "../../common/constants/responseMessages.constants";
 
 const log: debug.IDebugger = debug("app:auth-controller");
 
@@ -24,11 +25,13 @@ class AuthController {
       const token = jwt.sign(req.body, jwtSecret, {
         expiresIn: tokenExpirationInSeconds,
       });
-      return res.status(HttpStatusCode.CREATED).send({ accessToken: token, refreshToken: hash });
+      return res
+        .status(HttpStatusCode.CREATED)
+        .send({ accessToken: token, refreshToken: hash });
     } catch (err) {
-      log("createJWT error: %O", err);
+      log("createJWT error: ", err);
       res.status(HttpStatusCode.INTERNAL_SERVER).send();
-      throw new APIError("Something went wrong when creating this token");
+      throw new APIError(ResponseMessages.JWT_FAIL);
     }
   }
 }

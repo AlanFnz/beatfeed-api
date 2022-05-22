@@ -6,6 +6,7 @@ import debug from "debug";
 import { PatchUserDto } from "../dto/patch.user.dto";
 import { APIError } from "../../common/utils/error.utils";
 import { HttpStatusCode } from "../../common/constants/httpStatusCode.constants";
+import { ResponseMessages } from "../../common/constants/responseMessages.constants";
 
 const log: debug.IDebugger = debug("app:users-controller");
 
@@ -28,9 +29,9 @@ class UsersController {
     } catch (e) {
       log(e);
       res.status(HttpStatusCode.INTERNAL_SERVER).send({
-        errors: ["Something went wrong when creating this user"],
+        errors: [ResponseMessages.USER_CREATE_FAIL],
       });
-      throw new APIError("Something went wrong when creating this user");
+      throw new APIError(ResponseMessages.USER_CREATE_FAIL);
     }
   }
 
