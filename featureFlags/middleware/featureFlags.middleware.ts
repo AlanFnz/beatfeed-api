@@ -6,6 +6,7 @@ import featureFlagsService from "../services/featureFlags.service";
 import { getObjectId } from "../../common/utils/db.utils";
 import { APIError, HTTP404Error } from "../../common/utils/error.utils";
 import { HttpStatusCode } from "../../common/constants/httpStatusCode.constants";
+import { ResponseMessages } from "../../common/constants/responseMessages.constants";
 
 const log: debug.IDebugger = debug("app:feature-flags-middleware");
 
@@ -15,14 +16,18 @@ class FeatureFlagsMiddleware {
     res: express.Response,
     next: express.NextFunction
   ) {
-    const feature = await featureFlagsService.readById(getObjectId(req.params.featureId));
+    const feature = await featureFlagsService.readById(
+      getObjectId(req.params.featureId)
+    );
     if (feature) {
       next();
     } else {
       res.status(HttpStatusCode.NOT_FOUND).send({
-        error: `Feature ${req.params.featureId} not found`,
+        error: ResponseMessages.FEATURE_NOT_FOUND(req.params.featureId),
       });
-      throw new HTTP404Error(`Feature ${req.params.userId} not found`);
+      throw new HTTP404Error(
+        ResponseMessages.FEATURE_NOT_FOUND(req.params.featureId)
+      );
     }
   }
 
@@ -35,13 +40,9 @@ class FeatureFlagsMiddleware {
       req.body._id = getObjectId(req.params.featureId.toString());
     } catch (e) {
       res.status(HttpStatusCode.INTERNAL_SERVER).send({
-        errors: [
-          "Something went wrong when getting this object id",
-        ],
+        errors: [ResponseMessages.OBJECT_ID_ERROR],
       });
-      throw new APIError(
-        "Something went wrong when getting this object id"
-      );
+      throw new APIError(ResponseMessages.OBJECT_ID_ERROR);
     }
     next();
   }

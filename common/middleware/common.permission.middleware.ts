@@ -4,6 +4,7 @@ import debug from "debug";
 import { PermissionFlag } from "./common.permissionflag.enum";
 import { APIError, HTTP403Error } from "../utils/error.utils";
 import { HttpStatusCode } from "../constants/httpStatusCode.constants";
+import { ResponseMessages } from "../constants/responseMessages.constants";
 
 class CommonPermissionMiddleware {
   log: debug.IDebugger = debug("app:common-permission-middleware");
@@ -20,15 +21,11 @@ class CommonPermissionMiddleware {
           next();
         } else {
           res.status(HttpStatusCode.FORBIDDEN).send();
-          throw new HTTP403Error(
-            "This user doesn't have the required permissions"
-          );
+          throw new HTTP403Error(ResponseMessages.FORBIDDEN);
         }
       } catch (e) {
         this.log(e);
-        throw new APIError(
-          "Something went wrong when parsing this user's permissions"
-        );
+        throw new APIError(ResponseMessages.PERMISSION_PARSING_ERROR);
       }
     };
   }
@@ -50,9 +47,7 @@ class CommonPermissionMiddleware {
         return next();
       } else {
         res.status(HttpStatusCode.FORBIDDEN).send();
-        throw new HTTP403Error(
-          "This user doesn't have the required permissions"
-        );
+        throw new HTTP403Error(ResponseMessages.FORBIDDEN);
       }
     }
   }
@@ -67,9 +62,9 @@ class CommonPermissionMiddleware {
       req.body.permissionFlags !== res.locals.user.permissionFlags
     ) {
       res.status(HttpStatusCode.FORBIDDEN).send({
-        errors: ["User cannot change permission flags"],
+        errors: [ResponseMessages.USER_CANNOT_CHANGE_PERMISSIONS],
       });
-      throw new HTTP403Error("User cannot change permission flags");
+      throw new HTTP403Error(ResponseMessages.USER_CANNOT_CHANGE_PERMISSIONS);
     } else {
       next();
     }

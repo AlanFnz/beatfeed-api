@@ -10,6 +10,7 @@ import {
   HTTP400Error,
   HTTP404Error,
 } from "../../common/utils/error.utils";
+import { ResponseMessages } from "../../common/constants/responseMessages.constants";
 
 const log: debug.IDebugger = debug("app:users-middleware");
 
@@ -21,8 +22,10 @@ class UsersMiddleware {
   ) {
     const user = await userService.getUserByEmail(req.body.email);
     if (user) {
-      res.status(HttpStatusCode.BAD_REQUEST).send({ errors: ["User email already exists"] });
-      throw new HTTP400Error("User email already exists");
+      res
+        .status(HttpStatusCode.BAD_REQUEST)
+        .send({ errors: [ResponseMessages.USER_EMAIL_EXISTS] });
+      throw new HTTP400Error(ResponseMessages.USER_EMAIL_EXISTS);
     } else {
       next();
     }
@@ -36,8 +39,10 @@ class UsersMiddleware {
     if (res.locals.user._id.toString() === req.params.userId.toString()) {
       next();
     } else {
-      res.status(HttpStatusCode.BAD_REQUEST).send({ errors: ["Invalid email"] });
-      throw new HTTP400Error("Invalid email");
+      res
+        .status(HttpStatusCode.BAD_REQUEST)
+        .send({ errors: [ResponseMessages.USER_EMAIL_EXISTS] });
+      throw new HTTP400Error(ResponseMessages.USER_EMAIL_EXISTS);
     }
   }
 
@@ -66,9 +71,11 @@ class UsersMiddleware {
       next();
     } else {
       res.status(HttpStatusCode.NOT_FOUND).send({
-        errors: [`User ${req.params.userId} not found`],
+        errors: [ResponseMessages.USER_NOT_FOUND(req.params.userId)],
       });
-      throw new HTTP404Error(`User ${req.params.userId} not found`);
+      throw new HTTP404Error(
+        ResponseMessages.USER_NOT_FOUND(req.params.userId)
+      );
     }
   }
 
@@ -91,9 +98,9 @@ class UsersMiddleware {
       req.body.permissionFlags !== res.locals.user.permissionFlags
     ) {
       res.status(HttpStatusCode.BAD_REQUEST).send({
-        errors: ["User cannot change permission flags"],
+        errors: [ResponseMessages.USER_CANNOT_CHANGE_PERMISSIONS],
       });
-      throw new HTTP400Error("User cannot change permission flags");
+      throw new HTTP400Error(ResponseMessages.USER_CANNOT_CHANGE_PERMISSIONS);
     } else {
       next();
     }
@@ -112,13 +119,9 @@ class UsersMiddleware {
         next();
       } catch (e) {
         res.status(HttpStatusCode.INTERNAL_SERVER).send({
-          errors: [
-            "Something went wrong when updating this user's last login date",
-          ],
+          errors: [ResponseMessages.USER_LAST_LOGIN_UPDATE_ERROR],
         });
-        throw new APIError(
-          "Something went wrong when updating this user's last login date"
-        );
+        throw new APIError(ResponseMessages.USER_LAST_LOGIN_UPDATE_ERROR);
       }
     }
   }

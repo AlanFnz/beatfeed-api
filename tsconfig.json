@@ -8,5 +8,6 @@
     "inlineSourceMap": true,
     "useUnknownInCatchVariables": false,
     "allowJs": true,
+    "noImplicitAny": false,
   }
 }

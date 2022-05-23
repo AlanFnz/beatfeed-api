@@ -4,6 +4,7 @@ import crypto from "crypto";
 import { Jwt } from "../../common/types/jwt";
 import usersService from "../../users/services/users.service";
 import { HttpStatusCode } from "../../common/constants/httpStatusCode.constants";
+import { ResponseMessages } from "../../common/constants/responseMessages.constants";
 
 class JwtMiddleware {
   verifyRefreshBodyField(
@@ -16,7 +17,7 @@ class JwtMiddleware {
     } else {
       return res
         .status(400)
-        .send({ errors: ["Missing required field: refreshToken"] });
+        .send({ errors: [ResponseMessages.JWT_REFRESH_MISSING] });
     }
   }
 
@@ -45,7 +46,9 @@ class JwtMiddleware {
       };
       return next();
     } else {
-      return res.status(HttpStatusCode.BAD_REQUEST).send({ errors: ["Invalid refresh token"] });
+      return res
+        .status(HttpStatusCode.BAD_REQUEST)
+        .send({ errors: [ResponseMessages.JWT_REFRESH_INVALID] });
     }
   }
 
@@ -66,7 +69,9 @@ class JwtMiddleware {
           next();
         }
       } catch (err) {
-        return res.status(HttpStatusCode.FORBIDDEN).send({ error: err.message });
+        return res
+          .status(HttpStatusCode.FORBIDDEN)
+          .send({ error: err.message });
       }
     } else {
       return res.status(HttpStatusCode.CREATED).send();
