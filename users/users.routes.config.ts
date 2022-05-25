@@ -35,6 +35,7 @@ export class UsersRoutes extends CommonRoutesConfig {
           .withMessage("Must include password (+5 characters)"),
         BodyValidationMiddleware.verifyBodyFieldsErrors,
         UsersMiddleware.validateSameEmailDoesntExist,
+        UsersMiddleware.hashUserPassword,
         UsersController.createUser
       );
 
@@ -66,6 +67,7 @@ export class UsersRoutes extends CommonRoutesConfig {
       BodyValidationMiddleware.verifyBodyFieldsErrors,
       UsersMiddleware.validateSameEmailBelongToSameUser,
       UsersMiddleware.userCantChangePermission,
+      UsersMiddleware.hashUserPassword,
       UsersController.put,
     ]);
 
