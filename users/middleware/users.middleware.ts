@@ -11,6 +11,7 @@ import {
   HTTP404Error,
 } from "../../common/utils/error.utils";
 import { ResponseMessages } from "../../common/constants/responseMessages.constants";
+import { ObjectId } from "mongodb";
 
 const log: debug.IDebugger = debug("app:users-middleware");
 
@@ -84,6 +85,12 @@ class UsersMiddleware {
     res: express.Response,
     next: express.NextFunction
   ) {
+    if (!ObjectId.isValid(req.body.userId)) {
+      return res.status(HttpStatusCode.BAD_REQUEST).send({
+        errors: [ResponseMessages.INVALID_ID],
+      });
+    }
+    
     req.body._id = getObjectId(req.params.userId.toString());
     next();
   }
@@ -111,7 +118,14 @@ class UsersMiddleware {
     res: express.Response,
     next: express.NextFunction
   ) {
+    if (!ObjectId.isValid(req.body.userId)) {
+      return res.status(HttpStatusCode.BAD_REQUEST).send({
+        errors: [ResponseMessages.INVALID_ID],
+      });
+    }
+
     const user = await userService.readById(getObjectId(req.body.userId));
+
     if (user) {
       try {
         user.lastLogin = Date.now();
