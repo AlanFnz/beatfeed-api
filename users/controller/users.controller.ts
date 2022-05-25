@@ -17,12 +17,26 @@ class UsersController {
   }
 
   async getUserById(req: express.Request, res: express.Response) {
-    const user = await usersService.readById(req.body._id);
-    res.status(HttpStatusCode.SUCCESS).send(user);
+    let user: any;
+    try {
+      user = await usersService.readById(req.body._id);
+    } catch (e) {
+      res.status(HttpStatusCode.INTERNAL_SERVER).send({
+        errors: [ResponseMessages.USER_PASSWORD_HASHING_ERROR],
+      });
+      throw new APIError(ResponseMessages.USER_GET_FAIL);
+    }
+
+    if (user) {
+      res.status(HttpStatusCode.SUCCESS).send(user);
+    } else {
+      res.status(HttpStatusCode.NOT_FOUND).send({
+        errors: [ResponseMessages.USER_NOT_FOUND(req.body._id)],
+      });
+    }
   }
 
   async createUser(req: express.Request, res: express.Response) {
-    req.body.password = await argon2.hash(req.body.password);
     try {
       const user = await usersService.create(req.body);
       res.status(HttpStatusCode.CREATED).send(user);
@@ -37,20 +51,52 @@ class UsersController {
 
   async patch(req: express.Request, res: express.Response) {
     if (req.body.password) {
-      req.body.password = await argon2.hash(req.body.password);
+      try {
+        req.body.password = await argon2.hash(req.body.password);
+      } catch (e) {
+        log(e);
+        res.status(HttpStatusCode.INTERNAL_SERVER).send({
+          errors: [ResponseMessages.USER_PASSWORD_HASHING_ERROR],
+        });
+        throw new APIError(ResponseMessages.USER_CREATE_FAIL);
+      }
     }
-    log(await usersService.patchById(req.body._id, req.body));
+
+    try {
+      log(await usersService.patchById(req.body._id, req.body));
+    } catch (e) {
+      log(e)
+      res.status(HttpStatusCode.INTERNAL_SERVER).send({
+        errors: [ResponseMessages.USER_PASSWORD_HASHING_ERROR],
+      });
+      throw new APIError(ResponseMessages.USER_UPDATE_FAIL);
+    }
     res.status(HttpStatusCode.NO_CONTENT).send();
   }
 
   async put(req: express.Request, res: express.Response) {
-    req.body.password = await argon2.hash(req.body.password);
-    log(await usersService.putById(req.body._id, req.body));
+    try {
+      log(await usersService.putById(req.body._id, req.body));
+    } catch (e) {
+      log(e)
+      res.status(HttpStatusCode.INTERNAL_SERVER).send({
+        errors: [ResponseMessages.USER_PASSWORD_HASHING_ERROR],
+      });
+      throw new APIError(ResponseMessages.USER_UPDATE_FAIL);
+    }
     res.status(HttpStatusCode.NO_CONTENT).send();
   }
 
   async removeUser(req: express.Request, res: express.Response) {
-    log(await usersService.deleteById(req.body._id));
+    try {
+      log(await usersService.deleteById(req.body._id));
+    } catch (e) {
+      log(e)
+      res.status(HttpStatusCode.INTERNAL_SERVER).send({
+        errors: [ResponseMessages.USER_PASSWORD_HASHING_ERROR],
+      });
+      throw new APIError(ResponseMessages.USER_DELETE_FAIL);
+    }
     res.status(HttpStatusCode.NO_CONTENT).send();
   }
 
@@ -58,7 +104,16 @@ class UsersController {
     const patchUserDto: PatchUserDto = {
       permissionFlags: parseInt(req.params.permissionFlags),
     };
-    log(await usersService.patchById(req.body._id, patchUserDto));
+
+    try {
+      log(await usersService.patchById(req.body._id, patchUserDto));
+    } catch (e) {
+      log(e)
+      res.status(HttpStatusCode.INTERNAL_SERVER).send({
+        errors: [ResponseMessages.USER_PASSWORD_HASHING_ERROR],
+      });
+      throw new APIError(ResponseMessages.USER_UPDATE_FAIL);
+    }
     res.status(HttpStatusCode.NO_CONTENT).send();
   }
 }
