@@ -21,7 +21,10 @@ export const ResponseMessages = {
   // users
   USER_CREATE_FAIL: "Something went wrong when creating this user",
   USER_GET_FAIL: "Something went wrong when creating this user",
+  USER_UPDATE_FAIL: "Something went wrong when updating this user",
+  USER_DELETE_FAIL: "Something went wrong when deleting this user",
   USER_PASSWORD_HASHING_ERROR: "Something went wrong when hashing this password",
+  USER_PASSWORD_NOT_FOUND: "Password field not found",
   USER_EMAIL_EXISTS: "User email already exists",
   USER_EMAIL_INVALID: "Invalid email",
   USER_NOT_FOUND: (userId: any) => `User ${userId} not found`,
