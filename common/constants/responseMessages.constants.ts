@@ -19,8 +19,9 @@ export const ResponseMessages = {
   // features
   FEATURE_NOT_FOUND: (featureId: any) => `Feature ${featureId} not found`,
   // users
+  USERS_GET_FAIL: "Something went wrong when fetching users",
   USER_CREATE_FAIL: "Something went wrong when creating this user",
-  USER_GET_FAIL: "Something went wrong when creating this user",
+  USER_GET_FAIL: "Something went wrong when fetching this user",
   USER_UPDATE_FAIL: "Something went wrong when updating this user",
   USER_DELETE_FAIL: "Something went wrong when deleting this user",
   USER_PASSWORD_HASHING_ERROR: "Something went wrong when hashing this password",
