@@ -12,7 +12,15 @@ const log: debug.IDebugger = debug("app:users-controller");
 
 class UsersController {
   async listUsers(req: express.Request, res: express.Response) {
-    const users = await usersService.list(100, 0);
+    let users: any[];
+    try {
+      users = await usersService.list(100, 0);
+    } catch (e) {
+      res.status(HttpStatusCode.INTERNAL_SERVER).send({
+        errors: [ResponseMessages.USERS_GET_FAIL],
+      });
+      throw new APIError(ResponseMessages.USERS_GET_FAIL);
+    }
     res.status(HttpStatusCode.SUCCESS).send(users);
   }
 

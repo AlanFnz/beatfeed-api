@@ -16,11 +16,16 @@ export const ResponseMessages = {
   USER_CANNOT_CHANGE_PERMISSIONS: "User cannot change permission flags",
   // config
   CONFIG_EXISTENT: "A config object already exists",
+  CONFIG_GET_FAIL: "Something went wrong when fetching the config",
+  CONFIG_CREATE_FAIL: "Something went wrong when creating this config",
+  CONFIG_UPDATE_FAIL: "Something went wrong when updating this config",
+  CONFIG_DELETE_FAIL: "Something went wrong when deleting this config",
   // features
   FEATURE_NOT_FOUND: (featureId: any) => `Feature ${featureId} not found`,
   // users
+  USERS_GET_FAIL: "Something went wrong when fetching users",
   USER_CREATE_FAIL: "Something went wrong when creating this user",
-  USER_GET_FAIL: "Something went wrong when creating this user",
+  USER_GET_FAIL: "Something went wrong when fetching this user",
   USER_UPDATE_FAIL: "Something went wrong when updating this user",
   USER_DELETE_FAIL: "Something went wrong when deleting this user",
   USER_PASSWORD_HASHING_ERROR: "Something went wrong when hashing this password",
