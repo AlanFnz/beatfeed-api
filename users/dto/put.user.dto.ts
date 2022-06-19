@@ -16,7 +16,7 @@ export interface PutUserDto {
   // personal information //
   firstName: string;
   lastName: string;
-  dateOfBirth: Date;
+  birthDate: Date;
   location: string;
   country: string;
   //////////////////////////
