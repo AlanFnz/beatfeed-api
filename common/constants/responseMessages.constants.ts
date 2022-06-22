@@ -22,6 +22,11 @@ export const ResponseMessages = {
   CONFIG_DELETE_FAIL: "Something went wrong when deleting this config",
   // features
   FEATURE_NOT_FOUND: (featureId: any) => `Feature ${featureId} not found`,
+  FEATURES_GET_FAIL: "Something went wrong when fetching features",
+  FEATURE_GET_FAIL: "Something went wrong when fetching this feature",
+  FEATURE_CREATE_FAIL: "Something went wrong when creating this feature",
+  FEATURE_UPDATE_FAIL: "Something went wrong when updating this feature",
+  FEATURE_DELETE_FAIL: "Something went wrong when deleting this feature",
   // users
   USERS_GET_FAIL: "Something went wrong when fetching users",
   USER_CREATE_FAIL: "Something went wrong when creating this user",
