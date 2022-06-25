@@ -8,7 +8,7 @@ export const firstUserBody = {
   email: `test@test.test`,
   password: "test1234",
   username: "test",
-  dateOfBirth: 564519600000,
+  birthDate: 564519600000,
 };
 
 let accessToken = "";
