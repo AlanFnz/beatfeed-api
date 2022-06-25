@@ -30,7 +30,7 @@ class UsersController {
       user = await usersService.readById(req.body._id);
     } catch (e) {
       res.status(HttpStatusCode.INTERNAL_SERVER).send({
-        errors: [ResponseMessages.USER_PASSWORD_HASHING_ERROR],
+        errors: [ResponseMessages.USER_GET_FAIL],
       });
       throw new APIError(ResponseMessages.USER_GET_FAIL);
     }
