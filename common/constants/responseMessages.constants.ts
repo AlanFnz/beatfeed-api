@@ -40,4 +40,11 @@ export const ResponseMessages = {
   USER_NOT_FOUND: (userId: any) => `User ${userId} not found`,
   USER_LAST_LOGIN_UPDATE_ERROR:
     "Something went wrong when updating this user's last login date",
+  // labels
+  LABEL_NOT_FOUND: (labelId: any) => `Label ${labelId} not found`,
+  LABELS_GET_FAIL: "Something went wrong when fetching labels",
+  LABEL_CREATE_FAIL: "Something went wrong when creating this label",
+  LABEL_GET_FAIL: "Something went wrong when fetching this label",
+  LABEL_UPDATE_FAIL: "Something went wrong when updating this label",
+  LABEL_DELETE_FAIL: "Something went wrong when deleting this label",
 };
