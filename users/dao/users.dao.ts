@@ -33,7 +33,7 @@ class UsersDao {
     // personal information //
     firstName: String,
     lastName: String,
-    dateOfBirth: { type: Date, required: true },
+    birthDate: { type: Date, required: true },
     location: String,
     country: {
       type: String,
