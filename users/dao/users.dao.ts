@@ -19,6 +19,8 @@ class UsersDao {
     email: { type: String, required: true },
     password: { type: String, select: false, required: true },
     username: { type: String, required: true },
+    profilePicture: { type: String },
+    coverPicture: { type: String },
     permissionFlags: Number,
     //////////////////////////
 
