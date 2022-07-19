@@ -5,6 +5,8 @@ export interface CreateUserDto {
   email: string;
   password: string;
   username: string;
+  profilePicture: string;
+  coverPicture: string;
   permissionFlags?: number;
   //////////////////////////
 

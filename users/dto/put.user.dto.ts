@@ -5,6 +5,8 @@ export interface PutUserDto {
   email: string;
   password: string;
   username: string;
+  profilePicture: string;
+  coverPicture: string;
   permissionFlags: number;
   //////////////////////////
 
