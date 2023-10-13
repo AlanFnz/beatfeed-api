@@ -25,7 +25,9 @@ export class UsersController {
   @Get(':id')
   async getUser(@Param() params: any) {
     const user = users.find((user) => user.id === params.id);
-    return { success: true, payload: user };
+    return user
+      ? { success: true, payload: user }
+      : { success: true, payload: null };
   }
 
   @Post()
