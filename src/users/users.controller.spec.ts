@@ -27,12 +27,12 @@ describe('UsersController', () => {
   describe('getUser', () => {
     it('should return a single user', async () => {
       const result = { success: true, payload: expect.any(Object) };
-      expect(await controller.getUser({ id: '1' })).toEqual(result);
+      expect(await controller.getUser('1')).toEqual(result);
     });
 
     it('should return null if user is not found', async () => {
       const result = { success: true, payload: null };
-      expect(await controller.getUser({ id: '10' })).toEqual(result);
+      expect(await controller.getUser('10')).toEqual(result);
     });
   });
 
