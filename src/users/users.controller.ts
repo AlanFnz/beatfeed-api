@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  Post,
+} from '@nestjs/common';
 import { CreateUserDto } from './dto/user.dto';
 
 const users = [
@@ -23,5 +32,11 @@ export class UsersController {
   async createUser(@Body() createUserDto: CreateUserDto) {
     const { username, email, password } = createUserDto;
     return { success: true, payload: { username, email, password } };
+  }
+
+  @Delete(':id')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  async deleteUser(@Param('id') id: string) {
+    return { success: true };
   }
 }
