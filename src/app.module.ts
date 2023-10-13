@@ -16,7 +16,6 @@ import { User } from './users/entities/user.entity';
       entities: [User],
       synchronize: true,
     }),
-    ,
     UsersModule,
     EventsModule,
   ],
