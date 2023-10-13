@@ -1,5 +1,3 @@
-// users.service.ts
-
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -12,6 +10,10 @@ export class UsersService {
     @InjectRepository(User)
     private readonly usersRepository: Repository<User>,
   ) {}
+
+  async getUsers(): Promise<User[]> {
+    return this.usersRepository.find();
+  }
 
   async createUser(
     username: string,
