@@ -30,11 +30,7 @@ export class UsersController {
 
   @Post()
   async createUser(@Body() createUserDto: CreateUserDto) {
-    const user = await this.usersService.createUser(
-      createUserDto.username,
-      createUserDto.email,
-      createUserDto.password,
-    );
+    const user = await this.usersService.createUser(createUserDto);
     return { success: true, payload: user };
   }
 
