@@ -1,9 +1,14 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 import * as bcrypt from 'bcrypt';
 import { CreateUserDto } from './dto/user.dto';
+import { isUUID } from 'src/utils/validation.utils';
 
 @Injectable()
 export class UsersService {
@@ -33,6 +38,10 @@ export class UsersService {
   }
 
   async findUserById(id: string): Promise<User | undefined> {
+    if (!isUUID(id)) {
+      throw new BadRequestException('Invalid ID format');
+    }
+
     const user = await this.usersRepository.findOne({ where: { id: id } });
 
     if (!user) {
@@ -47,7 +56,6 @@ export class UsersService {
   }
 
   async updateUser(id: string, updateData: Partial<User>): Promise<User> {
-    // Ensure the user exists
     const user = await this.usersRepository.findOne({ where: { id: id } });
     if (!user) {
       throw new NotFoundException(`User with ID ${id} not found`);
