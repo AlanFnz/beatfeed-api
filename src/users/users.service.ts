@@ -22,7 +22,16 @@ export class UsersService {
   }
 
   async createUser(createUserDto: CreateUserDto): Promise<User> {
-    const { password } = createUserDto;
+    const { username, email, password } = createUserDto;
+
+    const existingUser = await this.usersRepository.findOne({
+      where: [{ username }, { email }],
+    });
+
+    if (existingUser) {
+      throw new BadRequestException('Username or email already in use');
+    }
+
     const hashedPassword = await bcrypt.hash(password, 12);
 
     const user = this.usersRepository.create({
