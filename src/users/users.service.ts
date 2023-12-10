@@ -22,12 +22,11 @@ export class UsersService {
   }
 
   async createUser(createUserDto: CreateUserDto): Promise<User> {
-    const { username, email, password } = createUserDto;
+    const { password } = createUserDto;
     const hashedPassword = await bcrypt.hash(password, 12);
 
     const user = this.usersRepository.create({
-      username,
-      email,
+      ...createUserDto,
       password: hashedPassword,
     });
 
