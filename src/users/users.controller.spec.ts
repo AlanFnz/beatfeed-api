@@ -49,6 +49,7 @@ describe('UsersController', () => {
           username: 'test',
           email: 'test@test.com',
           password: 'test123',
+          profilePicture: null,
         },
       };
       expect(await controller.createUser(createUserDto)).toEqual(result);
