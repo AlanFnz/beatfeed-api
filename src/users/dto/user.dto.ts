@@ -1,6 +1,9 @@
 import { IsEmail, IsOptional, IsString, Length, IsUUID } from 'class-validator';
 
 export class CreateUserDto {
+  @IsEmail()
+  email: string;
+
   @IsString()
   @Length(3, 50)
   username: string;
@@ -9,8 +12,9 @@ export class CreateUserDto {
   @Length(8, 100)
   password: string;
 
-  @IsEmail()
-  email: string;
+  @IsOptional()
+  @IsString()
+  displayName?: string;
 
   @IsOptional()
   @IsString()
@@ -18,8 +22,9 @@ export class CreateUserDto {
 }
 
 export class UpdateUserDto {
-  @IsUUID()
-  id: string;
+  @IsOptional()
+  @IsEmail()
+  email?: string;
 
   @IsOptional()
   @IsString()
@@ -27,8 +32,8 @@ export class UpdateUserDto {
   username?: string;
 
   @IsOptional()
-  @IsEmail()
-  email?: string;
+  @IsString()
+  displayName?: string;
 
   @IsOptional()
   @IsString()
